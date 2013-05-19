@@ -68,10 +68,13 @@
 #pragma mark - Special conversions
 #pragma mark UIColor
 + (id) extractInstanceFromColor: (FrankColor *) color {
+	id value = nil;
+    
+              
+#if TARGET_OS_IPHONE
 	CGColorSpaceModel colorModel = CGColorSpaceGetModel(CGColorGetColorSpace([color CGColor]));
 	const CGFloat *colors = CGColorGetComponents([color CGColor]);
 	
-	id value = nil;
 	// so far, only RGB and monochrome color spaces are supported. Adding CMYK and other fancy pants
 	// color spaces should be dead simple, just no need for it so far.
 	switch (colorModel) {
@@ -95,7 +98,18 @@
 			value = @"<NON-RGB COLOR>";
 			break;
 	}
-	
+    
+#else
+    NSColor *rgbColor = [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+    
+    value = [NSDictionary dictionaryWithObjectsAndKeys:
+             [NSNumber numberWithFloat:[rgbColor redComponent]], @"red",
+             [NSNumber numberWithFloat:[rgbColor blueComponent]], @"blue",
+             [NSNumber numberWithFloat:[rgbColor greenComponent]], @"green",
+             [NSNumber numberWithFloat:[rgbColor alphaComponent]], @"alpha",
+             nil];
+    
+#endif
 	return value;
 }
 

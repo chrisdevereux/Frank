@@ -142,10 +142,10 @@ NSDictionary* FEX_DictionaryForAXMenu(AXUIElementRef menu)
 
 + (void) load
 {
-    [[NSNotificationCenter defaultCenter] addObserver: [self class]
-                                             selector: @selector(applicationDidBecomeActive:)
-                                                 name: NSApplicationDidFinishLaunchingNotification 
-                                               object: nil];
+//    [[NSNotificationCenter defaultCenter] addObserver: [self class]
+//                                             selector: @selector(applicationDidBecomeActive:)
+//                                                 name: NSApplicationDidFinishLaunchingNotification 
+//                                               object: nil];
 }
 
 - (void) menuOpened: (NSNotification*) aNotification
